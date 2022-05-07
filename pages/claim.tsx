@@ -1,11 +1,19 @@
 import type { NextPage } from 'next'
-import { useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { requestPoapForAddress } from '../utils/aptos';
 
 const Claim: NextPage = () => {
-    useEffect(() => {
-        requestPoapForAddress('')
-    }, []);
+    const [loading, setLoading] = useState(true);
+    const [address, setAddress] = useState<string>();
+
+    const router = useRouter()
+    const walletAddress = router.query.address;
+    console.log('walletAddress :>> ', walletAddress);
+    // setAddress(walletAddress)
+
+
     return (
         <>
             <div className="relative py-16 bg-white">
@@ -18,7 +26,7 @@ const Claim: NextPage = () => {
                                 <div className="aspect-w-10 aspect-h-6 sm:aspect-w-2 sm:aspect-h-1 lg:aspect-w-1">
                                     <img
                                         className="object-cover object-center rounded-3xl shadow-2xl"
-                                        src="https://arweave.net/w1FTqbOq6nWlYnEN2lwfVJneXWJCf-3eQwVdsnTbZZQ"
+                                        src="https://arweave.net/C8EqQ5Qft_okdR2_eZbnrVO25YxFPP4ZhVzWjwzxpHc"
                                         alt=""
                                     />
                                 </div>
@@ -74,17 +82,19 @@ const Claim: NextPage = () => {
                             </div>
                             <div className="relative max-w-md mx-auto py-12 px-4 space-y-6 sm:max-w-3xl sm:py-16 sm:px-6 lg:max-w-none lg:p-0 lg:col-start-4 lg:col-span-6">
                                 <h2 className="text-3xl font-extrabold text-white" id="join-heading">
-                                    Your POAP is ready to be claimed
+                                    Want something to prove you hacked this weekend?
                                 </h2>
                                 <p className="text-lg text-white">
-                                    Claim your Aptos Hackathon POAP now:
+                                    Make sure you have an <a className='underline' href="https://github.com/aptos-labs/aptos-core/releases/tag/wallet-v0.0.1">Aptos Wallet</a>  and claim your Aptos Hackathon POAP now:
                                 </p>
-                                <a
-                                    className="block w-full py-3 px-5 text-center bg-white border border-transparent rounded-md shadow-md text-base font-medium text-indigo-700 hover:bg-gray-50 sm:inline-block sm:w-auto"
-                                    href="#"
-                                >
-                                    Claim
-                                </a>
+                                <Link href='/success'>
+                                    <a
+                                        className="block w-full py-3 px-5 text-center bg-white border border-transparent rounded-md shadow-md text-base font-medium text-indigo-700 hover:bg-gray-50 sm:inline-block sm:w-auto"
+                                        href="#"
+                                    >
+                                        Claim
+                                    </a>
+                                </Link>
                             </div>
                         </div>
                     </div>
