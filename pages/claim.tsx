@@ -1,18 +1,20 @@
 import type { NextPage } from 'next'
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { requestPoapForAddress } from '../utils/aptos';
+import { useEffect } from 'react';
+import { mintPOAP } from '../src/utils/mint_poap';
+
+console.log('Minting POAP')
+// Gets the address of the account signed into the wallet
+
+
+
 
 const Claim: NextPage = () => {
-    const [loading, setLoading] = useState(true);
-    const [address, setAddress] = useState<string>();
-
-    const router = useRouter()
-    const walletAddress = router.query.address;
-    console.log('walletAddress :>> ', walletAddress);
-    // setAddress(walletAddress)
-
+    useEffect(() => {
+        if (window) {
+            mintPOAP()
+        }
+    }, []);
 
     return (
         <>
