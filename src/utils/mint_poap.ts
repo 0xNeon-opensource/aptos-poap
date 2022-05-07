@@ -247,6 +247,8 @@ export async function mintPOAP() {
     console.log(`users's token balance: ${token_balance}`)
 
     const user_token_data = await client.getTokenData(root.address(), collection_name, token_name)
-    console.log(`Root's token data: ${JSON.stringify(user_token_data)}`)
+    const data = `Root's token data: ${JSON.stringify(user_token_data)}`
+    console.log(data)
+    return data;
 
 }

@@ -1,20 +1,31 @@
 import type { NextPage } from 'next'
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { mintPOAP } from '../src/utils/mint_poap';
 
-console.log('Minting POAP')
 // Gets the address of the account signed into the wallet
 
 
 
 
 const Claim: NextPage = () => {
-    useEffect(() => {
-        if (window) {
-            mintPOAP()
-        }
-    }, []);
+    const [loading, setLoading] = useState(false);
+    const [adderess, setAdderess] = useState<string>();
+    const [tokenData, setTokenData] = useState<string>();
+
+    const mint = async () => {
+        setLoading(true);
+        const res = await mintPOAP()
+        const accountAddress = await (window as any).aptos.account()
+        setAdderess(accountAddress);
+        setLoading(false);
+        setTokenData(res);
+    }
+    // useEffect(() => {
+    //     if (window) {
+    //         mintPOAP()
+    //     }
+    // }, []);
 
     return (
         <>
@@ -82,22 +93,46 @@ const Claim: NextPage = () => {
                                     <rect width={404} height={384} fill="url(#64e643ad-2176-4f86-b3d7-f2c5da3b6a6d)" />
                                 </svg>
                             </div>
-                            <div className="relative max-w-md mx-auto py-12 px-4 space-y-6 sm:max-w-3xl sm:py-16 sm:px-6 lg:max-w-none lg:p-0 lg:col-start-4 lg:col-span-6">
-                                <h2 className="text-3xl font-extrabold text-white" id="join-heading">
-                                    Want something to prove you hacked this weekend?
-                                </h2>
-                                <p className="text-lg text-white">
-                                    Make sure you have an <a className='underline' href="https://github.com/aptos-labs/aptos-core/releases/tag/wallet-v0.0.1">Aptos Wallet</a>  and claim your Aptos Hackathon POAP now:
-                                </p>
-                                <Link href='/success'>
-                                    <a
-                                        className="block w-full py-3 px-5 text-center bg-white border border-transparent rounded-md shadow-md text-base font-medium text-indigo-700 hover:bg-gray-50 sm:inline-block sm:w-auto"
-                                        href="#"
-                                    >
-                                        Claim
-                                    </a>
-                                </Link>
-                            </div>
+                            {
+                                !tokenData ? (
+                                    <div className="relative max-w-md mx-auto py-12 px-4 space-y-6 sm:max-w-3xl sm:py-16 sm:px-6 lg:max-w-none lg:p-0 lg:col-start-4 lg:col-span-6">
+                                        <h2 className="text-3xl font-extrabold text-white" id="join-heading">
+                                            Want something to prove you hacked this weekend?
+                                        </h2>
+                                        <p className="text-lg text-white">
+                                            Make sure you have an <a className='underline' href="https://github.com/aptos-labs/aptos-core/releases/tag/wallet-v0.0.1">Aptos Wallet</a>  and claim your Aptos Hackathon POAP now:
+                                        </p>
+                                        <a
+                                            className="cursor-pointer block w-full py-3 px-5 text-center bg-white border border-transparent rounded-md shadow-md text-base font-medium text-indigo-700 hover:bg-gray-50 sm:inline-block sm:w-auto"
+                                            onClick={mint}
+                                        >
+                                            {
+                                                loading ? '...' : 'Claim'
+                                            }
+                                        </a>
+                                    </div>
+
+                                ) : (
+                                    <div className="relative max-w-md mx-auto py-12 px-4 space-y-6 sm:max-w-3xl sm:py-16 sm:px-6 lg:max-w-none lg:p-0 lg:col-start-4 lg:col-span-6">
+                                        <h2 className="text-3xl font-extrabold text-white" id="join-heading">
+                                            Success!
+                                        </h2>
+                                        <p className="text-lg text-white">
+                                            Your Aptos address:
+                                            <br /><br />
+                                            {
+                                                adderess
+                                            }
+                                        </p>
+                                        <p className="text-lg text-white">
+                                            Your token's URI:
+                                            <br /><br />
+                                            <a className='underline' target='_blank' rel='noreferrer' href="https://arweave.net/C8EqQ5Qft_okdR2_eZbnrVO25YxFPP4ZhVzWjwzxpHc">https://arweave.net/C8EqQ5Qft_okdR2_eZbnrVO25YxFPP4ZhVzWjwzxpHc</a>
+                                        </p>
+                                    </div>
+
+                                )
+                            }
                         </div>
                     </div>
                 </div>
