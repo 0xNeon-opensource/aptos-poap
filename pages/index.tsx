@@ -1,7 +1,10 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import Link from 'next/link'
+import { useState } from 'react';
 
 const Home: NextPage = () => {
+  const [address, setAddress] = useState<string>();
   return (
     <>
       <Head>
@@ -55,32 +58,40 @@ const Home: NextPage = () => {
               <div className="relative">
                 <div className="sm:text-center">
                   <h2 className="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
-                    Get notified when we&rsquo;re launching.
+                    Want something to prove you hacked this weekend?
                   </h2>
                   <p className="mt-6 mx-auto max-w-2xl text-lg text-indigo-200">
-                    Sagittis scelerisque nulla cursus in enim consectetur quam. Dictum urna sed consectetur neque
-                    tristique pellentesque.
+                    Join history by minting the first POAP on Aptos.
                   </p>
                 </div>
                 <form action="#" className="mt-12 sm:mx-auto sm:max-w-lg sm:flex">
                   <div className="min-w-0 flex-1">
                     <label htmlFor="cta-email" className="sr-only">
-                      Email address
+                      Aptos address
                     </label>
                     <input
                       id="cta-email"
-                      type="email"
+                      type="input"
                       className="block w-full border border-transparent rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600"
-                      placeholder="Enter your email"
+                      placeholder="Enter your Aptos address"
+                      onChange={(e) => setAddress(e.target.value)}
+                      autoCorrect="off" spellCheck="false" autoComplete="off"
                     />
                   </div>
                   <div className="mt-4 sm:mt-0 sm:ml-3">
-                    <button
-                      type="submit"
-                      className="block w-full rounded-md border border-transparent px-5 py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10"
+                    <Link
+                      href={{
+                        pathname: '/claim',
+                        query: { address: address },
+                      }}
                     >
-                      Notify me
-                    </button>
+                      <button
+                        type="submit"
+                        className="block w-full rounded-md border border-transparent px-5 py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10"
+                      >
+                        Request
+                      </button>
+                    </Link>
                   </div>
                 </form>
               </div>
