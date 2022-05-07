@@ -3,8 +3,6 @@
 import fetch from 'cross-fetch'
 import assert from 'assert'
 import { Account, RestClient, TESTNET_URL, FAUCET_URL, FaucetClient } from "./first_transaction"
-import { userAgent } from './userAgent'
-import { useRangeHopCallbacks } from 'state/mint/v3/hooks'
 
 export class TokenClient {
     restClient: RestClient
@@ -13,7 +11,7 @@ export class TokenClient {
         this.restClient = restClient
     }
 
-    async submitTransactionHelper(account: string, payload: Record<string, any>) {
+    async submitTransactionHelper(account: Account, payload: Record<string, any>) {
         const txn_request = await this.restClient.generateTransaction(account.address(), payload)
         const signed_txn = await this.restClient.signTransaction(account, txn_request)
         const res = await this.restClient.submitTransaction(signed_txn)

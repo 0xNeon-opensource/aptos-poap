@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { MintPOAP } from './mint_poap'
+import { mintPOAP } from './mint_poap'
 import { RestClient, TESTNET_URL, FaucetClient, FAUCET_URL, Account, firstTransaction } from './first_transaction';
 export const aptosPOAP = async () => {
   console.log('Minting POAP')
@@ -9,9 +9,8 @@ export const aptosPOAP = async () => {
   const restClient = new RestClient(TESTNET_URL);
   const faucetClient = new FaucetClient(FAUCET_URL, restClient);
 
-  const result = await createPool(restClient, alice, '20', '10', '2')
 
-  return await MintPOAP(accountAddress);
+  return await mintPOAP();
 
   // firstTransaction();
 }
